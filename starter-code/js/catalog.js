@@ -31,7 +31,6 @@ function handleSubmit(event) {
   cart.saveToLocalStorage();
   updateCounter();
   updateCartPreview();
-
 }
 
 // TODO: Add the selected item and quantity to the cart
@@ -39,27 +38,28 @@ function addSelectedItemToCart() {
   // TODO: suss out the item picked from the select list
   var selectElement = document.getElementById('items')
   var selectedItem = selectElement.options[selectElement.selectedIndex].value;
-  console.log(selectedItem);
 
   // TODO: get the quantity
   var selectedQuantity = document.getElementById('catalog').elements['quantity'].value;
-  console.log('selectedQuantity:,', selectedQuantity);
 
   // TODO: using those, add one item to the Cart
-  Cart.push(new CartItem(selectedItem, selectedQuantity));
+  cart.addItem(selectedItem, selectedQuantity);
 }
 
 // TODO: Update the cart count in the header nav with the number of items in the Cart
 function updateCounter() {
   var spanElement = document.getElementById('itemCount');
-  spanElement.textContent = Cart.items.length;
-
+  spanElement.textContent = cart.items.length;
 }
 
 // TODO: As you add items into the cart, show them (item & quantity) in the cart preview div
 function updateCartPreview() {
   // TODO: Get the item and quantity from the form
   // TODO: Add a new element to the cartContents div with that information
+  var divElement = document.getElementById('cartContents');
+  var pElement = document.createElement('p');
+  pElement.textContent = `${cart.items[cart.items.length - 1].product} ${cart.items[cart.items.length - 1].quantity}`;
+  divElement.appendChild(pElement);
 }
 
 // Set up the "submit" event listener on the form.
@@ -67,8 +67,6 @@ function updateCartPreview() {
 // Call that handleSubmit method above and kick off the whole process
 var catalogForm = document.getElementById('catalog');
 catalogForm.addEventListener('submit', handleSubmit);
-// catalogForm.addEventListener('submit', console.log(event.target));
-
 
 // Before anything else of value can happen, we need to fill in the select
 // drop down list in the form.

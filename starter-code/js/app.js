@@ -14,15 +14,19 @@ Cart.prototype.addItem = function(product, quantity) {
 
 Cart.prototype.saveToLocalStorage = function() {
   // TODO: Fill in this instance method to save the contents of the cart to localStorage
-  localStorage.setItem('cartData', JSON.stringify(cart.items));
+  localStorage.setItem('cartData', JSON.stringify(this.items));
 };
 
 Cart.prototype.removeItem = function(item) {
+  console.log('ran Cart.removeItem');
+  console.log('input item to remove:', item);
   // TODO: Fill in this instance method to remove one item from the cart.
   // Note: You will have to decide what kind of parameter to pass in here!
-  if (Cart.items.includes(item)) { // may be able to remove if statement
-    var itemIndex = Cart.items.indexOf(item);
-    Cart.items.splice(itemIndex, 1);
+  if (this.items.includes(item)) { // may be able to remove if statement
+  // console.log(typeof this.items);
+    var itemIndex = this.items.indexOf(item);
+    // console.log('itemIndex:', itemIndex);
+    this.items.splice(itemIndex, 1);
   }
 };
 

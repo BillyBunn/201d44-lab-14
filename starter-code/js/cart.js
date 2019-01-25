@@ -8,10 +8,7 @@ var cart;
 
 function loadCart() {
   var cartItems = JSON.parse(localStorage.getItem('cartData')) || [];
-  // console.log('cartItems:', cartItems);
-  // console.log('cart before:', cart);
   cart = new Cart(cartItems);
-  // console.log('cart after:', cart);
 }
 
 // Make magic happen --- re-pull the Cart, clear out the screen and re-draw it
@@ -24,7 +21,6 @@ function renderCart() {
 // TODO: Remove all of the rows (tr) in the cart table (tbody)
 function clearCart() {
   var tableBodyElement = document.getElementsByTagName('tbody')[0];
-  // console.log('tableBodyElement:', tableBodyElement);
   tableBodyElement.innerHTML = '';
 }
 
@@ -37,7 +33,7 @@ function showCart() {
 
   // TODO: Iterate over the items in the cart
   for (var i = 0; i < cart.items.length; i++) {
-    
+
     // TODO: Create a TR
     var trElement = document.createElement('tr');
 
@@ -45,7 +41,7 @@ function showCart() {
     var tdDeleteLinkElement = document.createElement('td');
     var tdProductElement = document.createElement('td');
     var tdQuantityElement = document.createElement('td');
-    tdDeleteLinkElement.innerHTML = '<a class="delete-button">X</a>';
+    tdDeleteLinkElement.innerHTML = `<a id="delete-${i}" class="delete">X</a>`;
     tdProductElement.textContent = cart.items[i].product;
     tdQuantityElement.textContent = cart.items[i].quantity;
 
@@ -58,12 +54,21 @@ function showCart() {
 }
 
 function removeItemFromCart(event) {
-
   // TODO: When a delete link is clicked, use cart.removeItem to remove the correct item
+  var deleteLinks = document.getElementsByClassName('delete')
+  for (var i = 0; i < deleteLinks.length; i++) {
+    if (event.target.id === 'delete-' + i) {
+      console.log('rowToDelete:', i);
+      cart.removeItem(cart.items[i]);
+      break;
+    }
+  }
 
   // TODO: Save the cart back to local storage
-  // TODO: Re-draw the cart table
+  cart.saveToLocalStorage();
 
+  // TODO: Re-draw the cart table
+  renderCart();
 }
 
 // This will initialize the page and draw the cart on screen
